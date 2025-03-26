@@ -1,10 +1,10 @@
-import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:one_futbol/database/team_dao.dart';
 import 'package:one_futbol/player_info.dart';
 import 'package:one_futbol/team_model.dart';
 
+// ignore: must_be_immutable
 class MatchDetails extends StatefulWidget {
   MatchDetails(
       {super.key,
@@ -88,6 +88,7 @@ class _MatchDetailsState extends State<MatchDetails> {
   }
 
   @override
+  // ignore: override_on_non_overriding_member
   Widget details() {
     List<Team> matches = widget.match[widget.index];
     return ListView.builder(

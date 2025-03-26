@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:one_futbol/database/database_helper.dart';
 import 'package:one_futbol/database/player_dao.dart';
-import 'package:one_futbol/player_screen.dart';
 import 'package:one_futbol/player_model.dart';
 
+// ignore: must_be_immutable
 class CardInfo extends StatefulWidget {
   CardInfo({
     super.key,

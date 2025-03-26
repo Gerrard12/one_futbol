@@ -1,15 +1,13 @@
-import 'dart:ffi';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:one_futbol/database/team_dao.dart';
-import 'package:one_futbol/player_screen.dart';
 import 'package:one_futbol/matches.dart';
 import 'package:one_futbol/player_model.dart';
 import 'package:one_futbol/team_model.dart';
 
+// ignore: must_be_immutable
 class Teams extends StatefulWidget {
   List<Team> teams;
 

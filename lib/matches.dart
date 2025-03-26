@@ -1,11 +1,10 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:one_futbol/database/team_dao.dart';
-import 'package:one_futbol/player_screen.dart';
 import 'package:one_futbol/match_details.dart';
 import 'package:one_futbol/team_model.dart';
 
+// ignore: must_be_immutable
 class Matches extends StatefulWidget {
   Matches({super.key, required this.team});
   List<Team> team;
@@ -24,6 +23,7 @@ class _MatchesState extends State<Matches> with TickerProviderStateMixin {
     updateTeams();
     _tabController = TabController(length: 3, vsync: this);
   }
+  
 
   @override
   void dispose() {

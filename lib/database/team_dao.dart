@@ -1,11 +1,6 @@
-import 'dart:convert';
-import 'dart:ui';
 
 import 'package:one_futbol/database/database_helper.dart';
-import 'package:one_futbol/player_model.dart';
 import 'package:one_futbol/team_model.dart';
-import 'package:one_futbol/teams_screen.dart';
-import 'package:sqflite/sqlite_api.dart';
 
 class TeamDao {
   final database = DatabaseHelper.instance.db;

@@ -1,10 +1,5 @@
-import 'dart:async';
 import 'dart:convert';
-
-import 'package:flutter/widgets.dart';
 import 'package:one_futbol/player_model.dart';
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 @JsonSerializable(explicitToJson: true)
