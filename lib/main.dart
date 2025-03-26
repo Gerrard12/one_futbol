@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:one_futbol/Navigation_bar.dart';
+import 'package:one_futbol/database/database_helper.dart';
 
-void main() {
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await DatabaseHelper.instance.init();
   runApp(const MyApp());
 }
 
