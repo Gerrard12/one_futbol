@@ -1,21 +1,23 @@
+// ignore: must_be_immutable
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:one_futbol/database/player_dao.dart';
-import 'package:one_futbol/player_model.dart';
+import 'package:one_futbol/models/player_model.dart';
 
-// ignore: must_be_immutable
 class CardInfo extends StatefulWidget {
   CardInfo({
     super.key,
-    this.updateList,
     required this.players,
     required this.index,
-    this.goals,
+    required this.updateList,
+    required this.selectedPlayer,
   });
 
-  final int index;
-  Function? updateList;
+  int index;
+  HashSet<Player> selectedPlayer;
   List<Player> players;
-  double? goals;
+  Function? updateList;
 
   @override
   State<CardInfo> createState() => _CardInfoState();
@@ -26,6 +28,7 @@ class _CardInfoState extends State<CardInfo> {
 
   Future<void> eliminarJugador() async {
     Player player = widget.players[widget.index];
+    widget.selectedPlayer.remove(player);
     await dao.delete(player);
     widget.updateList!();
   }
@@ -40,59 +43,60 @@ class _CardInfoState extends State<CardInfo> {
         TextEditingController(text: player.performance.toString());
 
     showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Editar jugador'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextField(
-                  controller: nameController,
-                  decoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(5), labelText: 'Nombre'),
-                ),
-                TextField(
-                  controller: positionController,
-                  decoration: InputDecoration(labelText: 'Posicion'),
-                ),
-                TextField(
-                  controller: performanceController,
-                  decoration: InputDecoration(labelText: 'Rendimiento'),
-                  keyboardType: TextInputType.number,
-                ),
-              ],
-            ),
-            actions: [
-              ElevatedButton(
-                  style: ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(Colors.green)),
-                  onPressed: () async {
-                    player.name = nameController.text;
-                    player.position = positionController.text;
-                    player.performance =
-                        double.tryParse(performanceController.text) ?? 0;
-                    await dao.update(player);
-                    setState(() {
-                      Navigator.pop(context);
-                    });
-                  },
-                  child: Text('Guardar',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ))),
-              TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: Text('Cancelar')),
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Editar jugador'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: nameController,
+                decoration: InputDecoration(
+                    contentPadding: EdgeInsets.all(5), labelText: 'Nombre'),
+              ),
+              TextField(
+                controller: positionController,
+                decoration: InputDecoration(labelText: 'Posicion'),
+              ),
+              TextField(
+                controller: performanceController,
+                decoration: InputDecoration(labelText: 'Rendimiento'),
+                keyboardType: TextInputType.number,
+              ),
             ],
-          );
-        });
+          ),
+          actions: [
+            ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: WidgetStatePropertyAll(Colors.green)),
+                onPressed: () async {
+                  player.name = nameController.text;
+                  player.position = positionController.text;
+                  player.performance =
+                      double.tryParse(performanceController.text) ?? 0;
+                  await dao.update(player);
+                  widget.updateList!();
+                  setState(() {
+                    Navigator.pop(context);
+                  });
+                },
+                child: Text('Guardar',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ))),
+            TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('Cancelar')),
+          ],
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      key: ValueKey(widget.players[widget.index].id),
       child: ListTile(
         title: Text(
           widget.players[widget.index].name,
@@ -124,6 +128,15 @@ class _CardInfoState extends State<CardInfo> {
               ],
               onSelected: (item) => selectedItem(context, item),
             ),
+            Visibility(
+              visible:
+                  widget.selectedPlayer.contains(widget.players[widget.index]),
+              child: Icon(
+                Icons.check_circle_outline,
+                size: 30,
+                color: Colors.green,
+              ),
+            )
           ],
         ),
       ),

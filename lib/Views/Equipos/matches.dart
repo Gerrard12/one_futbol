@@ -1,8 +1,9 @@
-
 import 'package:flutter/material.dart';
+import 'package:one_futbol/Navigations/History_navigation.dart';
+import 'package:one_futbol/database/match_dao.dart';
 import 'package:one_futbol/database/team_dao.dart';
-import 'package:one_futbol/match_details.dart';
-import 'package:one_futbol/team_model.dart';
+import 'package:one_futbol/Views/Equipos/match_details.dart';
+import 'package:one_futbol/models/team_model.dart';
 
 // ignore: must_be_immutable
 class Matches extends StatefulWidget {
@@ -15,7 +16,9 @@ class Matches extends StatefulWidget {
 
 class _MatchesState extends State<Matches> with TickerProviderStateMixin {
   late final TabController _tabController;
+  List<Match> matches = [];
   final dao = TeamDao();
+  final daoMatch = MatchDao();
 
   @override
   void initState() {
@@ -23,7 +26,6 @@ class _MatchesState extends State<Matches> with TickerProviderStateMixin {
     updateTeams();
     _tabController = TabController(length: 3, vsync: this);
   }
-  
 
   @override
   void dispose() {
@@ -61,7 +63,7 @@ class _MatchesState extends State<Matches> with TickerProviderStateMixin {
         children: <Widget>[
           createMatch(widget.team, context),
           ranking(widget.team),
-          Center(child: Text("Partidos")),
+          SizedBox(),
         ],
       ),
     );
@@ -81,7 +83,6 @@ Widget createMatch(List<Team> team, context) {
     padding: EdgeInsets.zero,
     itemCount: match.length,
     itemBuilder: (BuildContext context, int index) {
-      print('MATCHES HECHOS ${match[index]}');
       List<Team> m = match[index];
       return InkWell(
         onTap: () => Navigator.push(
@@ -103,7 +104,7 @@ Widget createMatch(List<Team> team, context) {
                     style: TextStyle(fontSize: 20),
                   ),
                   trailing: Image.asset(
-                    'assets/rm_logo.png',
+                    'assets/image/real.png',
                     width: 60,
                     height: 60,
                   ),
@@ -117,7 +118,7 @@ Widget createMatch(List<Team> team, context) {
                 alignment: Alignment.topLeft,
                 child: ListTile(
                   leading: Image.asset(
-                    'assets/barca_logo.png',
+                    'assets/image/Barca.png',
                     width: 60,
                     height: 60,
                   ),

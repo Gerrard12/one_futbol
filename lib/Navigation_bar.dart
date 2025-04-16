@@ -3,6 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:one_futbol/Navigations/Equipos_navigation.dart';
 import 'package:one_futbol/Navigations/History_navigation.dart';
 import 'package:one_futbol/Navigations/Home_navigation.dart';
+import 'package:one_futbol/Views/Player/player_screen.dart';
+import 'package:one_futbol/database/player_dao.dart';
+import 'package:one_futbol/database/team_dao.dart';
 
 class MainWrapper extends StatefulWidget {
   const MainWrapper({super.key});
@@ -11,10 +14,13 @@ class MainWrapper extends StatefulWidget {
   MainWrapperState createState() => MainWrapperState();
 }
 
+final dao = PlayerDao();
+final daoTeam = TeamDao();
+
 class MainWrapperState extends State<MainWrapper> {
   int _selectedIndex = 0;
 
-  final List<GlobalKey<NavigatorState>> _navigatorKeys = [
+  List<GlobalKey<NavigatorState>> _navigatorKeys = [
     homeNavigatorKey,
     historyNavigatorKey,
     equiposNavigatorKey
@@ -34,6 +40,7 @@ class MainWrapperState extends State<MainWrapper> {
 
   @override
   Widget build(BuildContext context) {
+    dao.readAll();
     return WillPopScope(
       onWillPop: _systemBackButtonPressed,
       child: Scaffold(
@@ -60,16 +67,15 @@ class MainWrapperState extends State<MainWrapper> {
               icon: Icon(Icons.history),
               label: 'History',
             ),
-            
           ],
         ),
         body: SafeArea(
           top: false,
           child: IndexedStack(
             index: _selectedIndex,
-            children: const <Widget>[
-              Home(),
-              Equipos(),
+            children: <Widget>[
+              const Home(),
+              Players(),
               HistoryNavigation(),
             ],
           ),

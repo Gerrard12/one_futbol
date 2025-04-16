@@ -78,7 +78,6 @@ class Marcador extends StatelessWidget {
             ),
             Row(
               children: [
-                AutoSizeText('     '),
                 AutoSizeText('Jaraneros'),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 96),
