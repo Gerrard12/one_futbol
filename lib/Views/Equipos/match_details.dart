@@ -2,11 +2,7 @@ import 'dart:collection';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:one_futbol/Navigation_bar.dart';
-import 'package:one_futbol/Navigations/History_navigation.dart';
-import 'package:one_futbol/Views/History/Screen_history.dart';
 import 'package:one_futbol/database/team_dao.dart';
-import 'package:one_futbol/Views/Equipos/matches.dart';
 import 'package:one_futbol/models/player_model.dart';
 import 'package:one_futbol/models/team_model.dart';
 
@@ -234,8 +230,8 @@ class _MatchDetailsState extends State<MatchDetails> {
                   } else {
                     team1.points += 3;
                   }
-                  daoTeam.updateTeam(team2);
-                  daoTeam.updateTeam(team1);
+                  dao.updateTeam(team2);
+                  dao.updateTeam(team1);
                 },
                 label: Text('Finalizar'),
               )

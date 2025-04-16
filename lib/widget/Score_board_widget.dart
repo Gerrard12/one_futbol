@@ -42,14 +42,16 @@ class Marcador extends StatelessWidget {
           children: [
             Row(
               children: [
-                Expanded(child: AutoSizeText('Fecha de encuentro - Mie, 12/3')),
+                Expanded(child: AutoSizeText('Fecha de encuentro - Mie, 12/3',
+                )),
                 Row(
                   children: [
                     AutoSizeText(''),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 40),
+                      padding: EdgeInsets.symmetric(horizontal: 10),
                     ),
-                    AutoSizeText('Finalizado'),
+                    AutoSizeText('Finalizado',
+                    ),
                   ],
                 ),
               ],
@@ -64,8 +66,8 @@ class Marcador extends StatelessWidget {
                   children: [
                     AutoSizeText('3', style: TextStyle(fontSize: 30)),
                     Padding(
-                      child: AutoSizeText('-'),
                       padding: EdgeInsets.symmetric(horizontal: 50),
+                      child: AutoSizeText('-'),
                     ),
                     AutoSizeText('1', style: TextStyle(fontSize: 30)),
                     Image.asset(
@@ -78,9 +80,10 @@ class Marcador extends StatelessWidget {
             ),
             Row(
               children: [
+                AutoSizeText('      '),
                 AutoSizeText('Jaraneros'),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 96),
+                  padding: EdgeInsets.only(right: 185),
                 ),
                 AutoSizeText('Chumbeles'),
               ],
@@ -99,6 +102,6 @@ class LogoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset(Logo, width: 100, height: 100, fit: BoxFit.cover);
+    return Image.asset(Logo, width: 300, height: 200, fit: BoxFit.cover);
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:one_futbol/Navigations/History_navigation.dart';
 import 'package:one_futbol/database/match_dao.dart';
 import 'package:one_futbol/database/team_dao.dart';
 import 'package:one_futbol/Views/Equipos/match_details.dart';
