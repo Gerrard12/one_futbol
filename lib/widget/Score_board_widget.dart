@@ -66,8 +66,8 @@ class Marcador extends StatelessWidget {
                   children: [
                     AutoSizeText('3', style: TextStyle(fontSize: 30)),
                     Padding(
-                      child: AutoSizeText('-'),
                       padding: EdgeInsets.symmetric(horizontal: 50),
+                      child: AutoSizeText('-'),
                     ),
                     AutoSizeText('1', style: TextStyle(fontSize: 30)),
                     Image.asset(

@@ -1,12 +1,11 @@
-
 import 'package:one_futbol/database/database_helper.dart';
-import 'package:one_futbol/team_model.dart';
+import 'package:one_futbol/models/team_model.dart';
 
 class TeamDao {
   final database = DatabaseHelper.instance.db;
 
   Future<List<Team>> readAllTeam() async {
-    final db = await database;
+    final db = database;
     final List<Map<String, dynamic>> maps = await db.query('teams');
     return maps.map((map) => Team.fromJson(map)).toList();
   }
@@ -15,7 +14,7 @@ class TeamDao {
     return await database.insert('teams', team.toJson());
   }
 
-  Future<void> updateTeam(Team team, String name) async {
+  Future<void> updateTeamName(Team team, String name) async {
     await database.update('teams', {'name': name},
         where: 'id = ?', whereArgs: [team.id]);
   }
@@ -27,5 +26,10 @@ class TeamDao {
 
   Future<void> deleteTeam(Team team) async {
     await database.delete('teams', where: 'id = ?', whereArgs: [team.id]);
+  }
+
+  Future<void> updateTeam(Team team) async {
+    await database
+        .update('teams', team.toJson(), where: 'id = ?', whereArgs: [team.id]);
   }
 }
