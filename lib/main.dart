@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:one_futbol/Navigation_bar.dart';
 import 'package:one_futbol/database/database_helper.dart';
-
+import 'package:one_futbol/mianwrapper.dart';
+import 'package:one_futbol/theme/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await DatabaseHelper.instance.init();
-  runApp(const MyApp());
+  runApp(
+      ChangeNotifierProvider(create: (context) => ThemeProvider(),
+      child: const MyApp(),
+      )
+      );
 }
 
 class MyApp extends StatelessWidget {
@@ -15,12 +20,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(useMaterial3: true),
-      home: const Banner(
-        message: '',
-        location: BannerLocation.topEnd,
-        child: MainWrapper(),
-      ),
+      title: 'Una Pichanga Demo',
+      theme: Provider.of<ThemeProvider>(context).themeData,
+      home: MainWrapper(),
     );
   }
 }
