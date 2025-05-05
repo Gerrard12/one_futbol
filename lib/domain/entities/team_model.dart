@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:one_futbol/models/player_model.dart';
+import 'package:one_futbol/domain/entities/player_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 @JsonSerializable(explicitToJson: true)

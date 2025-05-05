@@ -1,5 +1,5 @@
 import 'package:one_futbol/database/database_helper.dart';
-import 'package:one_futbol/models/team_model.dart';
+import 'package:one_futbol/domain/entities/team_model.dart';
 
 class TeamDao {
   final database = DatabaseHelper.instance.db;

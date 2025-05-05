@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:one_futbol/database/match_dao.dart';
-import 'package:one_futbol/database/team_dao.dart';
-import 'package:one_futbol/Views/Equipos/match_details.dart';
-import 'package:one_futbol/models/team_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:one_futbol/Views/Equipos/teams_screen.dart';
+import 'package:one_futbol/bloc/match_bloc/match_bloc.dart';
+import 'package:one_futbol/bloc/match_bloc/match_event.dart';
+import 'package:one_futbol/bloc/match_bloc/match_state.dart';
 
-// ignore: must_be_immutable
+import 'package:one_futbol/Views/Equipos/match_details.dart';
+import 'package:one_futbol/bloc/team_bloc/team_bloc.dart';
+import 'package:one_futbol/bloc/team_bloc/team_event.dart';
+import 'package:one_futbol/domain/entities/match_model.dart';
+import 'package:one_futbol/domain/entities/team_model.dart';
+import 'package:one_futbol/widget/Score_board_widget.dart';
+
 class Matches extends StatefulWidget {
-  Matches({super.key, required this.team});
-  List<Team> team;
+  const Matches({super.key});
 
   @override
   State<Matches> createState() => _MatchesState();
@@ -15,14 +21,10 @@ class Matches extends StatefulWidget {
 
 class _MatchesState extends State<Matches> with TickerProviderStateMixin {
   late final TabController _tabController;
-  List<Match> matches = [];
-  final dao = TeamDao();
-  final daoMatch = MatchDao();
 
   @override
   void initState() {
     super.initState();
-    updateTeams();
     _tabController = TabController(length: 3, vsync: this);
   }
 
@@ -32,64 +34,67 @@ class _MatchesState extends State<Matches> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  Future<void> updateTeams() async {
-    widget.team = await dao.readAllTeam();
-    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Partidos'),
-        bottom: TabBar(
-          controller: _tabController,
-          tabs: const <Widget>[
-            Tab(
-              text: 'Matches',
+    return BlocBuilder<MatchBloc, MatchesState>(builder: (context, state) {
+      if (state is MatchLoaded) {
+        final List<MatchModel> matches = state.matches;
+
+        return Scaffold(
+            floatingActionButton: FloatingActionButton.small(
+              onPressed: () {
+                context.read<MatchBloc>().add(DeleteAllMatches());
+                deleteTeamGoals(matches, context);
+                deleteTeamPoints(matches, context);
+              },
+              child: Icon(Icons.delete_forever),
             ),
-            Tab(
-              text: 'Ranking',
+            appBar: AppBar(
+              title: const Text('Partidos'),
+              bottom: TabBar(
+                controller: _tabController,
+                tabs: const <Widget>[
+                  Tab(
+                    text: 'Matches',
+                  ),
+                  Tab(
+                    text: 'Ranking',
+                  ),
+                  Tab(
+                    text: 'Historial',
+                  ),
+                ],
+              ),
             ),
-            Tab(
-              text: 'Historial',
-            ),
-          ],
-        ),
-      ),
-      body: TabBarView(
-        controller: _tabController,
-        children: <Widget>[
-          createMatch(widget.team, context),
-          ranking(widget.team),
-          SizedBox(),
-        ],
-      ),
-    );
+            body: TabBarView(
+              controller: _tabController,
+              children: <Widget>[
+                createMatch(matches, context),
+                ranking(),
+                SingleChildScrollView(
+                    child: Column(children: [Marcador(matches: matches)])),
+              ],
+            ));
+      } else {
+        return Scaffold(body: Center(child: CircularProgressIndicator()));
+      }
+    });
   }
 }
 
-Widget createMatch(List<Team> team, context) {
+Widget createMatch(List<MatchModel> matches, context) {
   double widthScreen = MediaQuery.of(context).size.width;
-  int count = (team.length / 2).toInt();
-  List<List<Team>> match = List.generate(count, (index) => []);
-  team.shuffle();
-  for (int i = 0; i < team.length; i++) {
-    match[i % count].add(team[i]);
-  }
-
   return ListView.builder(
     padding: EdgeInsets.zero,
-    itemCount: match.length,
+    itemCount: matches.length,
     itemBuilder: (BuildContext context, int index) {
-      List<Team> m = match[index];
+      MatchModel m = matches[index];
       return InkWell(
         onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => MatchDetails(
-                      teams: team,
-                      match: match,
+                      matches: matches,
                       index: index,
                     ))),
         child: Card(
@@ -99,7 +104,7 @@ Widget createMatch(List<Team> team, context) {
                 alignment: Alignment.topRight,
                 child: ListTile(
                   title: Text(
-                    m[0].name,
+                    m.teams[0].name,
                     style: TextStyle(fontSize: 20),
                   ),
                   trailing: Image.asset(
@@ -122,7 +127,7 @@ Widget createMatch(List<Team> team, context) {
                     height: 60,
                   ),
                   title: Text(
-                    m[1].name,
+                    m.teams[1].name,
                     style: TextStyle(fontSize: 20),
                   ),
                 )),
@@ -133,25 +138,20 @@ Widget createMatch(List<Team> team, context) {
   );
 }
 
-Widget ranking(List<Team> team) {
-  team.sort(
-    (a, b) => b.points.compareTo(a.points),
-  );
+void deleteTeamGoals(List<MatchModel> matches, BuildContext context) {
+  for (MatchModel match in matches) {
+    for (int i = 0; i < matches.length; i++) {
+      match.teams[i].teamGoals = 0;
+      context.read<TeamBloc>().add(UpdateTeam(match.teams[i]));
+    }
+  }
+}
 
-  return ListView.builder(
-    itemCount: team.length,
-    itemBuilder: (context, index) {
-      return Card(
-        child: ListTile(
-          leading: Text(
-            (index + 1).toString(),
-            style: TextStyle(fontSize: 15),
-          ),
-          title: Text(team[index].name),
-          trailing: Text('Puntos ${team[index].points}',
-              style: TextStyle(fontSize: 15)),
-        ),
-      );
-    },
-  );
+void deleteTeamPoints(List<MatchModel> matches, BuildContext context) {
+  for (MatchModel match in matches) {
+    for (int i = 0; i < matches.length; i++) {
+      match.teams[i].points = 0;
+      context.read<TeamBloc>().add(UpdateTeam(match.teams[i]));
+    }
+  }
 }

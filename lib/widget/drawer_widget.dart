@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';
-import 'package:one_futbol/bloc/drawer_event.dart';
-import 'package:one_futbol/bloc/nav_drawer_bloc.dart';
-import 'package:one_futbol/bloc/nav_drawer_state.dart';
+import 'package:one_futbol/bloc/nav_drawer_bloc/drawer_event.dart';
+import 'package:one_futbol/bloc/nav_drawer_bloc/nav_drawer_bloc.dart';
+import 'package:one_futbol/bloc/nav_drawer_bloc/nav_drawer_state.dart';
 
 class _NavigationItem {
   final NavItem item;
@@ -12,6 +12,7 @@ class _NavigationItem {
 
   _NavigationItem(this.item, this.title, this.icon);
 }
+
 class NavDrawerWidget extends StatelessWidget {
   NavDrawerWidget({super.key});
 

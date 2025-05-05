@@ -21,6 +21,7 @@ class _HistorialViewState extends State<HistorialView> {
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
+        print('Imagen guardada ${_image.runtimeType}');
         // widget.imgUrl null;
       } else {
         print('No Image Picked');

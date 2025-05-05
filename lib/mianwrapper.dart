@@ -3,8 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';
-import 'package:one_futbol/bloc/nav_drawer_bloc.dart';
-import 'package:one_futbol/bloc/nav_drawer_state.dart';
+import 'package:one_futbol/Views/Equipos/matches.dart';
+import 'package:one_futbol/Views/Equipos/teams_screen.dart';
+import 'package:one_futbol/Views/Player/player_screen.dart';
+import 'package:one_futbol/bloc/match_bloc/match_bloc.dart';
+import 'package:one_futbol/bloc/match_bloc/match_event.dart';
+import 'package:one_futbol/bloc/nav_drawer_bloc/nav_drawer_bloc.dart';
+import 'package:one_futbol/bloc/nav_drawer_bloc/nav_drawer_state.dart';
+import 'package:one_futbol/bloc/team_bloc/team_bloc.dart';
+import 'package:one_futbol/bloc/team_bloc/team_event.dart';
+import 'package:one_futbol/bloc/team_bloc/team_state.dart';
+import 'package:one_futbol/data/data_provider/match_dao.dart';
+import 'package:one_futbol/data/data_provider/player_dao.dart';
+import 'package:one_futbol/data/data_provider/team_dao.dart';
+import 'package:one_futbol/domain/entities/player_model.dart';
+import 'package:one_futbol/domain/entities/team_model.dart';
 import 'package:one_futbol/view/jugador_view.dart';
 import 'package:one_futbol/view/home_view.dart';
 import 'package:one_futbol/view/historial_view.dart';
@@ -84,11 +97,11 @@ class MainWrapperState extends State<MainWrapper> {
       case NavItem.homeView:
         return const HomeView();
       case NavItem.profileView:
-        return const EquiposView();
+        return const Teams();
       case NavItem.orderView:
         return const HistorialView();
       case NavItem.cartView:
-        return const JugadorView();
+        return const Players();
       // ignore: unreachable_switch_default
       default:
         return Container();
