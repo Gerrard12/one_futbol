@@ -1,41 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:one_futbol/database/player_dao.dart';
-import 'package:one_futbol/database/team_dao.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:one_futbol/Views/Equipos/matches.dart';
-import 'package:one_futbol/models/player_model.dart';
-import 'package:one_futbol/models/team_model.dart';
+import 'package:one_futbol/bloc/match_bloc/match_bloc.dart';
+import 'package:one_futbol/bloc/match_bloc/match_event.dart';
+import 'package:one_futbol/bloc/match_bloc/match_state.dart';
+import 'package:one_futbol/bloc/player_bloc/player_bloc.dart';
+import 'package:one_futbol/bloc/player_bloc/player_event.dart';
+import 'package:one_futbol/bloc/team_bloc/team_bloc.dart';
+import 'package:one_futbol/bloc/team_bloc/team_state.dart';
+import 'package:one_futbol/domain/domain.dart';
 
-// ignore: must_be_immutable
+import '../../bloc/team_bloc/team_event.dart';
+
 class Teams extends StatefulWidget {
-  List<Team> teams;
-
-  Teams({super.key, required this.teams});
+  const Teams({super.key});
 
   @override
   State<Teams> createState() => _TeamsState();
 }
 
 class _TeamsState extends State<Teams> {
-  final daoTeam = TeamDao();
-  final dao = PlayerDao();
+  late final List<Team> selectedTeams = [];
 
-  @override
-  void initState() {
-    super.initState();
-    updateTeams();
+  void eliminarteams(Team list) {
+    context.read<TeamBloc>().add(DeleteTeam(list));
   }
 
-  Future<void> updateTeams() async {
-    widget.teams = await daoTeam.readAllTeam();
-    setState(() {});
-  }
-
-  Future<void> eliminarteams(Team list) async {
-    await daoTeam.deleteTeam(list);
-    updateTeams();
-  }
-
-  Future<void> editarteams(Team list) async {
+  void editarteams(Team list) {
     TextEditingController nameController =
         TextEditingController(text: list.name);
     showDialog(
@@ -58,13 +49,10 @@ class _TeamsState extends State<Teams> {
               ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor: WidgetStatePropertyAll(Colors.green)),
-                  onPressed: () async {
+                  onPressed: () {
                     list.name = nameController.text;
-                    daoTeam.updateTeamName(list, list.name);
-                    updateTeams();
-                    setState(() {
-                      Navigator.pop(context);
-                    });
+                    context.read<TeamBloc>().add(UpdateTeam(list));
+                    Navigator.pop(context);
                   },
                   child: Text('Guardar',
                       style: TextStyle(
@@ -82,120 +70,141 @@ class _TeamsState extends State<Teams> {
   Widget build(BuildContext context) {
     double heightScreen = MediaQuery.of(context).size.height;
     double widthScreen = MediaQuery.of(context).size.width;
-
+    final macthBloc = BlocProvider.of<MatchBloc>(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: Text('Teams'),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        physics: ClampingScrollPhysics(),
-        child: Column(
-          children: [
-            FloatingActionButton.small(
-              heroTag: 1,
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Matches(
-                              team: widget.teams,
-                            )));
-              },
-              child: const Icon(Icons.account_tree_rounded),
-            ),
-            Column(
-              children: widget.teams.map(
-                (team) {
-                  return DragTarget<Player>(
-                    onAcceptWithDetails: (player) async {
-                      setState(() {
-                        for (var team in widget.teams) {
-                          team.teamPlayers.removeWhere(
-                            (element) => element.id == player.data.id,
-                          );
-                          daoTeam.updateTeam(team);
-                        }
-                        player.data.team_id = team.id;
-                        team.teamPlayers.add(player.data);
-                        dao.update(player.data);
-                        daoTeam.updateTeam(team);
-                      });
-                      updateTeams();
-                    },
-                    builder: (context, candidateData, rejectedData) {
-                      return Column(
-                        children: [
-                          ListTile(
-                            title: Text(team.name),
-                            trailing: PopupMenuButton(
-                              icon: Icon(
-                                Icons.more_vert,
-                                color: Colors.blueGrey,
+      body: BlocBuilder<TeamBloc, TeamState>(builder: (context, state) {
+        if (state is TeamLoaded) {
+          final List<Team> teams = state.teams;
+          return SingleChildScrollView(
+            physics: ClampingScrollPhysics(),
+            child: Column(
+              children: [
+                Column(
+                  children: teams.map(
+                    (team) {
+                      return DragTarget<Player>(
+                        onAcceptWithDetails: (player) {
+                          for (Team team in teams) {
+                            team.teamPlayers.removeWhere(
+                              (element) => element.id == player.data.id,
+                            );
+                            context.read<TeamBloc>().add(UpdateTeam(team));
+                          }
+
+                          player.data.team_id = team.id;
+                          team.teamPlayers.add(player.data);
+                        },
+                        builder: (context, candidateData, rejectedData) {
+                          return Column(
+                            children: [
+                              ListTile(
+                                title: Text(
+                                  team.name,
+                                  style: TextStyle(fontWeight: FontWeight.w500),
+                                ),
+                                trailing: PopupMenuButton(
+                                  icon: Icon(
+                                    Icons.more_vert,
+                                    color: Colors.blueGrey,
+                                  ),
+                                  itemBuilder: (context) => [
+                                    PopupMenuItem(
+                                        value: 0, child: Text('Editar')),
+                                    PopupMenuItem(
+                                        value: 1, child: Text('Eliminar')),
+                                  ],
+                                  onSelected: (item) =>
+                                      selectedItem(context, item, team),
+                                ),
                               ),
-                              itemBuilder: (context) => [
-                                PopupMenuItem(value: 0, child: Text('Editar')),
-                                PopupMenuItem(
-                                    value: 1, child: Text('Eliminar')),
-                              ],
-                              onSelected: (item) =>
-                                  selectedItem(context, item, team),
-                            ),
-                          ),
-                          ListView(
-                              shrinkWrap: true,
-                              children: team.teamPlayers.map((player) {
-                                return Draggable<Player>(
-                                  data: player,
-                                  feedback: Container(
-                                      padding: EdgeInsets.all(20),
-                                      height: heightScreen / 8,
-                                      width: widthScreen - 5,
-                                      constraints:
-                                          BoxConstraints.tightForFinite(),
-                                      child: Card(
+                              ListView(
+                                  shrinkWrap: true,
+                                  children: team.teamPlayers.map((player) {
+                                    return Draggable<Player>(
+                                      data: player,
+                                      feedback: Container(
+                                          padding: EdgeInsets.all(20),
+                                          height: heightScreen / 8,
+                                          width: widthScreen - 5,
+                                          constraints:
+                                              BoxConstraints.tightForFinite(),
+                                          child: Card(
+                                              child: ListTile(
+                                            title: Text(player.name),
+                                            subtitle: Text(player.position),
+                                            trailing: Text(
+                                                player.performance.toString()),
+                                          ))),
+                                      childWhenDragging: Opacity(
+                                        opacity: 0.5,
+                                        child: Card(
                                           child: ListTile(
-                                        title: Text(player.name),
-                                        subtitle: Text(player.position),
-                                        trailing:
-                                            Text(player.performance.toString()),
-                                      ))),
-                                  childWhenDragging: Opacity(
-                                    opacity: 0.5,
-                                    child: Card(
-                                      child: ListTile(
-                                        title: Text(player.name),
-                                        subtitle: Text(player.position),
-                                        trailing: Text(
-                                          player.performance.toString(),
+                                            title: Text(player.name),
+                                            subtitle: Text(player.position),
+                                            trailing: Text(
+                                              player.performance.toString(),
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ),
-                                  child: Card(
-                                    child: ListTile(
-                                      title: Text(player.name),
-                                      subtitle: Text(player.position),
-                                      trailing: Text(
-                                        player.performance.toString(),
-                                        style: TextStyle(fontSize: 15),
+                                      child: Card(
+                                        color: Colors.green[150],
+                                        elevation: 5,
+                                        shadowColor: Colors.black,
+                                        child: ListTile(
+                                          textColor: Colors.black,
+                                          title: Text(player.name),
+                                          subtitle: Text(player.position),
+                                          trailing: Text(
+                                            player.performance.toString(),
+                                            style: TextStyle(fontSize: 15),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                );
-                              }).toList()),
-                        ],
+                                    );
+                                  }).toList()),
+                            ],
+                          );
+                        },
                       );
                     },
-                  );
-                },
-              ).toList(),
+                  ).toList(),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  spacing: 20,
+                  children: [
+                    FloatingActionButton(
+                      heroTag: 1,
+                      onPressed: () async {
+                        if (macthBloc.state is MatchLoaded) {
+                          macthBloc.add(DeleteAllMatches());
+                        }
+
+                        macthBloc.add(GenerateMatchEvent(teams));
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Matches()));
+                      },
+                      child: const Icon(Icons.account_tree_rounded),
+                    ),
+                    FloatingActionButton(
+                      heroTag: 2,
+                      onPressed: () async {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Matches()));
+                      },
+                      child: const Icon(Icons.account_tree_outlined),
+                    ),
+                  ],
+                )
+              ],
             ),
-          ],
-        ),
-      ),
+          );
+        } else {
+          return SizedBox();
+        }
+      }),
     );
   }
 
@@ -209,4 +218,35 @@ class _TeamsState extends State<Teams> {
         break;
     }
   }
+}
+
+Widget ranking() {
+  return BlocBuilder<TeamBloc, TeamState>(builder: (context, state) {
+    if (state is TeamLoaded) {
+      List<Team> team = state.teams;
+      team.sort(
+        (a, b) => b.points.compareTo(a.points),
+      );
+      return ListView.builder(
+        itemCount: team.length,
+        itemBuilder: (context, index) {
+          return Card(
+            child: ListTile(
+              leading: Text(
+                (index + 1).toString(),
+                style: TextStyle(fontSize: 15),
+              ),
+              title: Text(team[index].name),
+              trailing: Text('Puntos ${team[index].points}',
+                  style: TextStyle(fontSize: 15)),
+            ),
+          );
+        },
+      );
+    } else {
+      return Center(
+        child: Text('Sin equipos'),
+      );
+    }
+  });
 }
