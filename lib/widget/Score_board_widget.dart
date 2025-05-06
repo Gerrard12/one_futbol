@@ -102,6 +102,6 @@ class LogoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset(Logo, width: 300, height: 200, fit: BoxFit.cover);
+    return Image.asset(Logo, width: 400, height: 300, fit: BoxFit.cover);
   }
 }

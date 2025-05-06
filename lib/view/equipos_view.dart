@@ -16,9 +16,7 @@ class EquiposView extends StatelessWidget {
               builder: (context, constraints) => Container(
                 child: Center(
                   child: Text(
-                    'View 1\n\n' +
-                        '[MediaQuery]:\n ${screenSize.width.toStringAsFixed(2)}\n\n' +
-                        '[LayoutBuilder]:\n${constraints.maxWidth.toStringAsFixed(2)}',
+                    'View 1\n\n' '[MediaQuery]:\n ${screenSize.width.toStringAsFixed(2)}\n\n' '[LayoutBuilder]:\n${constraints.maxWidth.toStringAsFixed(2)}',
                     style: TextStyle(color: Colors.black, fontSize: 18),
                   ),
                 ),
@@ -32,9 +30,7 @@ class EquiposView extends StatelessWidget {
                 color: Colors.white,
                 child: Center(
                   child: Text(
-                    'View 2\n\n' +
-                        '[MediaQuery]:\n ${screenSize.width.toStringAsFixed(2)}\n\n' +
-                        '[LayoutBuilder]:\n${constraints.maxWidth.toStringAsFixed(2)}',
+                    'View 2\n\n' '[MediaQuery]:\n ${screenSize.width.toStringAsFixed(2)}\n\n' '[LayoutBuilder]:\n${constraints.maxWidth.toStringAsFixed(2)}',
                     style: TextStyle(color: Colors.black, fontSize: 18),
                   ),
                 ),

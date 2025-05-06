@@ -5,6 +5,7 @@ enum NavItem {
   profileView,
   orderView,
   cartView,
+  perfilView,
 }
 
 class NavDrawerState extends Equatable {
