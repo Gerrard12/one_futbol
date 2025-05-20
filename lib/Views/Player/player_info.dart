@@ -1,39 +1,35 @@
-// ignore: must_be_immutable
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:one_futbol/database/player_dao.dart';
-import 'package:one_futbol/models/player_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:one_futbol/bloc/player_bloc/player_bloc.dart';
+import 'package:one_futbol/bloc/player_bloc/player_event.dart';
+import 'package:one_futbol/domain/entities/player_model.dart';
 
 class CardInfo extends StatefulWidget {
-  CardInfo({
+  const CardInfo({
     super.key,
     required this.players,
     required this.index,
-    required this.updateList,
     required this.selectedPlayer,
   });
 
-  int index;
-  HashSet<Player> selectedPlayer;
-  List<Player> players;
-  Function? updateList;
+  final int index;
+  final HashSet<Player> selectedPlayer;
+  final List<Player> players;
 
   @override
   State<CardInfo> createState() => _CardInfoState();
 }
 
 class _CardInfoState extends State<CardInfo> {
-  final dao = PlayerDao();
-
-  Future<void> eliminarJugador() async {
+  void eliminarJugador() {
     Player player = widget.players[widget.index];
     widget.selectedPlayer.remove(player);
-    await dao.delete(player);
-    widget.updateList!();
+    context.read<PlayerBloc>().add(DeletePlayer(player));
   }
 
-  Future<void> editarJugador() async {
+  void editarJugador() {
     Player player = widget.players[widget.index];
     TextEditingController nameController =
         TextEditingController(text: player.name);
@@ -70,13 +66,12 @@ class _CardInfoState extends State<CardInfo> {
             ElevatedButton(
                 style: ButtonStyle(
                     backgroundColor: WidgetStatePropertyAll(Colors.green)),
-                onPressed: () async {
+                onPressed: () {
                   player.name = nameController.text;
                   player.position = positionController.text;
                   player.performance =
                       double.tryParse(performanceController.text) ?? 0;
-                  await dao.update(player);
-                  widget.updateList!();
+                  context.read<PlayerBloc>().add(UpdatePlayer(player));
                   setState(() {
                     Navigator.pop(context);
                   });
@@ -97,6 +92,8 @@ class _CardInfoState extends State<CardInfo> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 10,
+      shadowColor: Colors.black,
       child: ListTile(
         title: Text(
           widget.players[widget.index].name,

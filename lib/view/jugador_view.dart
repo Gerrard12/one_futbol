@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';
-import 'package:one_futbol/bloc/drawer_event.dart';
-import 'package:one_futbol/bloc/nav_drawer_bloc.dart';
-import 'package:one_futbol/bloc/nav_drawer_state.dart';
+import 'package:one_futbol/bloc/nav_drawer_bloc/drawer_event.dart';
+import 'package:one_futbol/bloc/nav_drawer_bloc/nav_drawer_bloc.dart';
+import 'package:one_futbol/bloc/nav_drawer_bloc/nav_drawer_state.dart';
 
 class JugadorView extends StatelessWidget {
   const JugadorView({super.key});

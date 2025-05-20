@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:one_futbol/models/team_model.dart';
+import 'package:one_futbol/domain/entities/team_model.dart';
 
-class Match {
-  Match({
+class MatchModel {
+  MatchModel({
     this.id,
     this.date,
     required this.teams,
@@ -13,16 +13,16 @@ class Match {
   late List<Team> teams;
   late DateTime? date;
 
-  Match copyWith({int? id, DateTime? date, List<Team>? teams}) {
-    return Match(
+  MatchModel copyWith({int? id, DateTime? date, List<Team>? teams}) {
+    return MatchModel(
       id: id ?? this.id,
       teams: teams ?? this.teams,
       date: date ?? this.date,
     );
   }
 
-  factory Match.fromJson(Map<String, dynamic> map) {
-    return Match(
+  factory MatchModel.fromJson(Map<String, dynamic> map) {
+    return MatchModel(
       id: map['id'],
       date: map['date'],
       teams: (jsonDecode(map['teams']) as List)

@@ -76,11 +76,11 @@ class MainWrapperState extends State<MainWrapper> {
       case NavItem.homeView:
         return const HomeView();
       case NavItem.profileView:
-        return const EquiposView();
+        return const Teams();
       case NavItem.orderView:
         return const HistorialView();
       case NavItem.cartView:
-        return const JugadorView();
+        return const Players();
       // ignore: unreachable_switch_default
       default:
         return Container();

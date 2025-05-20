@@ -5,6 +5,7 @@ import 'nav_drawer_state.dart';
 sealed class NavDrawerEvent extends Equatable {
   const NavDrawerEvent();
 }
+
 class NavigateTo extends NavDrawerEvent {
   final NavItem destination;
 

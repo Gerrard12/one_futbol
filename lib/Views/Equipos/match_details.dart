@@ -2,19 +2,25 @@ import 'dart:collection';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:one_futbol/database/team_dao.dart';
-import 'package:one_futbol/models/player_model.dart';
-import 'package:one_futbol/models/team_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:one_futbol/bloc/match_bloc/match_bloc.dart';
+import 'package:one_futbol/bloc/match_bloc/match_event.dart';
+import 'package:one_futbol/bloc/match_bloc/match_state.dart';
+import 'package:one_futbol/bloc/team_bloc/team_bloc.dart';
+import 'package:one_futbol/bloc/team_bloc/team_event.dart';
+import 'package:one_futbol/data/data_provider/match_dao.dart';
+import 'package:one_futbol/data/data_provider/team_dao.dart';
+import 'package:one_futbol/domain/entities/match_model.dart';
+import 'package:one_futbol/domain/entities/player_model.dart';
+import 'package:one_futbol/domain/entities/team_model.dart';
 
-// ignore: must_be_immutable
 class MatchDetails extends StatefulWidget {
-  MatchDetails(
-      {super.key,
-      required this.teams,
-      required this.match,
-      required this.index});
-  List<List<Team>> match;
-  List<Team> teams;
+  MatchDetails({
+    super.key,
+    required this.matches,
+    required this.index,
+  });
+  List<MatchModel> matches;
   int index;
 
   @override
@@ -27,7 +33,6 @@ typedef MenuEntry = DropdownMenuEntry<Player>;
 typedef MenuEntry1 = DropdownMenuEntry<int>;
 
 class _MatchDetailsState extends State<MatchDetails> {
-  final dao = TeamDao();
   TextEditingController controllerPlayer = TextEditingController();
   TextEditingController controllerGoals = TextEditingController();
   List<Player> goleadoresTeam1 = [];
@@ -59,7 +64,6 @@ class _MatchDetailsState extends State<MatchDetails> {
     int dropdownValue1 = goal.first;
 
     showDialog(
-        context: context,
         builder: (context) {
           return AlertDialog(
             title: Text('Agregar goles'),
@@ -124,7 +128,8 @@ class _MatchDetailsState extends State<MatchDetails> {
                   child: Text('Cancelar')),
             ],
           );
-        });
+        },
+        context: context);
   }
 
   void setGoals(Player player) {
@@ -142,11 +147,10 @@ class _MatchDetailsState extends State<MatchDetails> {
   }
 
   Widget details(Team team) {
-    List<Team> matches = widget.teams;
-    return Column(
-      children: [
-        SizedBox(
-          child: Card(
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          SizedBox(
             child: ListTile(
                 title: Text(
                   team.name,
@@ -165,47 +169,46 @@ class _MatchDetailsState extends State<MatchDetails> {
                     SizedBox(
                       width: 10,
                     ),
-                    SizedBox(
-                        width: 50,
-                        height: 50,
-                        child: FloatingActionButton(
-                            heroTag: team.name,
-                            child: Icon(
-                              Icons.add,
-                            ),
-                            onPressed: () {
-                              agregarGoles(team);
-                            })),
+                    FloatingActionButton.small(
+                        heroTag: team.name,
+                        child: Icon(
+                          Icons.add,
+                        ),
+                        onPressed: () {
+                          agregarGoles(team);
+                        }),
                   ],
                 )),
           ),
-        ),
-        Column(
-          children: team.teamPlayers
-              .map((e) => e.goals > 0
-                  ? Card(
-                      child: ListTile(
-                        title: Text(e.name),
-                        trailing: Text(
-                          'Goles ${e.goals.toString()}',
-                          style: TextStyle(fontSize: 16),
+          Column(
+            children: team.teamPlayers
+                .map((e) => e.goals > 0
+                    ? Card(
+                        child: ListTile(
+                          title: Text(e.name),
+                          trailing: Text(
+                            'Goles ${e.goals.toString()}',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          subtitle: Text(e.position),
                         ),
-                        subtitle: Text(e.position),
-                      ),
-                    )
-                  : SizedBox())
-              .toList(),
-        )
-      ],
+                      )
+                    : SizedBox())
+                .toList(),
+          ),
+          SizedBox(
+            height: 10,
+          )
+        ],
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    double heightScreen = MediaQuery.of(context).size.height;
+    List<Team> teams = widget.matches[widget.index].teams;
+    MatchModel match = widget.matches[widget.index];
 
-    Team team1 = widget.teams[0];
-    Team team2 = widget.teams[1];
     return Scaffold(
         appBar: AppBar(
           title: Text('Detalles del partido'),
