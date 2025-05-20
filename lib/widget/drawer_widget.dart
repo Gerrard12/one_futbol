@@ -105,14 +105,14 @@ class NavDrawerWidget extends StatelessWidget {
                     ? FontWeight.bold
                     : FontWeight.w300,
                 color: data.item == state.selectedItem
-                    ? const Color(0xFF7077F9)
+                    ? const Color(0xFF1F2B72)
                     : Colors.black,
               ),
             ),
             leading: Icon(
               data.icon,
               color: data.item == state.selectedItem
-                  ? const Color(0xFF7077F9)
+                  ? const Color(0xFFAC0202)
                   : Colors.black,
             ),
             onTap: () => _handleItemClick(context, data.item),

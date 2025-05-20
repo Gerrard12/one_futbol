@@ -230,8 +230,6 @@ class _MatchDetailsState extends State<MatchDetails> {
                   } else {
                     team1.points += 3;
                   }
-                  dao.updateTeam(team2);
-                  dao.updateTeam(team1);
                 },
                 label: Text('Finalizar'),
               )

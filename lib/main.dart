@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
                 themeMode: notifier.isDark? ThemeMode.dark : ThemeMode.light,
                 darkTheme: notifier.isDark? notifier.darkTheme : notifier.lightTheme,
                 theme: ThemeData(
-                  colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+                  colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFAC0202)),
                   useMaterial3: true,
                 ),
                 title: 'Una Pichanga Demo',

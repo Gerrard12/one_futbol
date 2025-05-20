@@ -67,7 +67,7 @@ class MainWrapperState extends State<MainWrapper> {
       ),
       
       centerTitle: false,
-      backgroundColor: const Color(0xFF7077F9),
+      backgroundColor: const Color(0xFFAC0202),
     );
   }
 

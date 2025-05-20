@@ -17,7 +17,7 @@ class HomeView extends StatelessWidget {
               },
               child: const Icon(IconlyBold.setting),
             ),
-      body:SafeArea(
+      body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
               children: [
@@ -26,6 +26,9 @@ class HomeView extends StatelessWidget {
                 SizedBox(height: 40),
                 Textotabla(),
                 Marcador(),
+                TextoLista(),
+                TablaGlobal(),
+                SizedBox(height: 60),
                 // DatosCarta(),
               ])),
       )
