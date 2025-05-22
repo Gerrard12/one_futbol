@@ -32,9 +32,9 @@ class Textotabla extends StatelessWidget {
 }
 
 class Marcador extends StatelessWidget {
-  final List<MatchModel> matches;
+  final MatchModel match;
 
-  const Marcador({super.key, required this.matches});
+  const Marcador({super.key, required this.match});
 
   @override
   Widget build(BuildContext context) {

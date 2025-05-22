@@ -46,13 +46,9 @@ class _PlayersState extends State<Players> {
     return Scaffold(
       body: Builder(builder: (context) {
         final teamB = BlocProvider.of<TeamBloc>(context);
+        double height = MediaQuery.of(context).size.height;
 
         return BlocBuilder<PlayerBloc, PlayerState>(builder: (context, state) {
-          if (state is PlayerLoading) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
           if (state is PlayerLoaded) {
             List<Player> players = state.players;
             return Column(
@@ -117,28 +113,35 @@ class _PlayersState extends State<Players> {
                   ],
                 ),
                 SizedBox(height: 20),
-                Expanded(
+                SizedBox(
+                  height: height - height / 2.96,
                   child: ListView.builder(
                     physics: ClampingScrollPhysics(),
                     shrinkWrap: true,
                     padding: EdgeInsets.all(8),
                     itemCount: players.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return InkWell(
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                        onTap: () {
-                          multiSelection(players[index]);
-                        },
-                        onLongPress: () {
-                          isMultiSelectionEnable = true;
-                          multiSelection(players[index]);
-                        },
-                        child: CardInfo(
-                          index: index,
-                          players: players,
-                          selectedPlayer: selectedItem,
-                        ),
-                      );
+                      Player player = players[index];
+                      return player.status == 'Activo'
+                          ? InkWell(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5)),
+                              onTap: () {
+                                multiSelection(players[index]);
+                              },
+                              onLongPress: () {
+                                isMultiSelectionEnable = true;
+                                multiSelection(players[index]);
+                              },
+                              child: CardInfo(
+                                player: player,
+                                selectedPlayer: selectedItem,
+                              ),
+                            )
+                          : CardInfo(
+                              player: player,
+                              selectedPlayer: selectedItem,
+                            );
                     },
                   ),
                 ),
@@ -146,7 +149,15 @@ class _PlayersState extends State<Players> {
             );
           }
           return Center(
-            child: Text('Sin jugadores'),
+            child: FloatingActionButton.small(
+              heroTag: 2,
+              child: Icon(Icons.person_add_alt_1),
+              onPressed: () {
+                setState(() {
+                  agregarJugador();
+                });
+              },
+            ),
           );
         });
       }),
@@ -216,7 +227,8 @@ class _PlayersState extends State<Players> {
                         performance: rendimiento,
                         name: nombre,
                         position: posicion,
-                        goals: 0);
+                        goals: 0,
+                        status: 'Activo');
 
                     nombreC.clear();
                     rendimientoC.clear();

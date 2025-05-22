@@ -14,7 +14,8 @@ class PlayerDao {
       'name': player.name,
       'performance': player.performance,
       'position': player.position,
-      'goals': player.goals
+      'goals': player.goals,
+      'status': player.status,
     });
   }
 

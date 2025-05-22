@@ -10,8 +10,14 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<MatchModel> matches = [];
+    // final state = context.watch<MatchBloc>().state;
+    // List<MatchModel>? matches;
 
+    // if (state is MatchLoaded) {
+    //   if (state.matches.isNotEmpty) {
+    //     matches = state.matches;
+    //   }
+    // }
     return Scaffold(
       floatingActionButton: FloatingActionButton(
               onPressed: () {
@@ -28,7 +34,7 @@ class HomeView extends StatelessWidget {
                 LogoSection(Logo: 'assets/image/logo.png',),
                 SizedBox(height: 40),
                 Textotabla(),
-                Marcador(matches: [],),
+                // Marcador(),
                 TextoLista(),
                 TablaGlobal(),
                 SizedBox(height: 60),

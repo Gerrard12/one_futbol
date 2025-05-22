@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:one_futbol/domain/domain.dart';
 
 class GenerateMatches {
@@ -5,15 +7,24 @@ class GenerateMatches {
     List<Team> selectedTeams = [];
     List<MatchModel> matches = [];
     int count = (teams.length / 2).toInt();
-    List<List<Team>> auxMatches = List.generate(count, (index) => []);
+    List<List<Team>> auxMatches = List.generate(count, (_) => []);
     teams.shuffle();
-    for (int i = 0; i < teams.length; i++) {
-      auxMatches[i % count].add(teams[i]);
+    int countPar = count * count;
+
+    if ((count % 2).isEven) {
+      for (int i = 0; i < countPar; i++) {
+        auxMatches[i % count].add(teams[i % teams.length]);
+      }
+    } else {
+      for (int i = 0; i < count + 1; i++) {
+        auxMatches[i % count].add(teams[i]);
+      }
     }
     for (int i = 0; i < auxMatches.length; i++) {
-      selectedTeams = auxMatches[i];
+      selectedTeams = auxMatches[i % count];
+      selectedTeams[i].teamGoals = 0;
 
-      MatchModel match = MatchModel(teams: selectedTeams);
+      MatchModel match = MatchModel(teams: selectedTeams, status: 'Por jugar');
       matches.add(match);
     }
     return matches;
