@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:one_futbol/Views/Equipos/matches.dart';
-import 'package:one_futbol/data/data_provider/match_dao.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:one_futbol/bloc/match_bloc/match_bloc.dart';
+import 'package:one_futbol/bloc/match_bloc/match_state.dart';
 import 'package:one_futbol/domain/entities/match_model.dart';
 import 'package:one_futbol/widget/Carta_widget.dart';
 import 'package:one_futbol/widget/Score_board_widget.dart';
@@ -10,8 +11,14 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<MatchModel> matches = [];
+    final state = context.watch<MatchBloc>().state;
+    List<MatchModel>? matches;
 
+    if (state is MatchLoaded) {
+      if (state.matches.isNotEmpty) {
+        matches = state.matches;
+      }
+    }
     return Scaffold(
         body: SafeArea(
       child: SingleChildScrollView(
@@ -20,9 +27,11 @@ class HomeView extends StatelessWidget {
         LogoSection(Logo: 'assets/image/logo1.png'),
         SizedBox(height: 40),
         Textotabla(),
-        Marcador(
-          matches: matches,
-        ),
+        matches != null
+            ? Marcador(
+                match: matches.first,
+              )
+            : SizedBox(),
         DatosCarta(),
       ])),
     ));
