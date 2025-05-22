@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:one_futbol/bloc/nav_drawer_bloc.dart';
-import 'package:one_futbol/bloc/nav_drawer_state.dart';
-import 'package:one_futbol/view/jugador_view.dart';
+import 'package:one_futbol/Views/Equipos/teams_screen.dart';
+import 'package:one_futbol/Views/Player/player_screen.dart';
+import 'package:one_futbol/bloc/nav_drawer_bloc/nav_drawer_bloc.dart';
+import 'package:one_futbol/bloc/nav_drawer_bloc/nav_drawer_state.dart';
 import 'package:one_futbol/view/home_view.dart';
 import 'package:one_futbol/view/historial_view.dart';
-import 'package:one_futbol/view/equipos_view.dart';
 import 'package:one_futbol/widget/drawer_widget.dart';
 
 class MainWrapper extends StatefulWidget {

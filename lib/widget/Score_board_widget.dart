@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:one_futbol/bloc/drawer_event.dart';
-import 'package:one_futbol/bloc/nav_drawer_bloc.dart';
-import 'package:one_futbol/bloc/nav_drawer_state.dart';
+import 'package:one_futbol/bloc/nav_drawer_bloc/drawer_event.dart';
+import 'package:one_futbol/bloc/nav_drawer_bloc/nav_drawer_bloc.dart';
+import 'package:one_futbol/bloc/nav_drawer_bloc/nav_drawer_state.dart';
+import 'package:one_futbol/domain/entities/match_model.dart';
 import 'package:one_futbol/widget/live_match_box.dart';
 import 'package:one_futbol/widget/upcoming_widget.dart';
 
@@ -45,34 +46,40 @@ class Marcador extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         children: [
           LiveMatchBox(
+            copaTitle: 'Copa Cheleros', 
+            ligaTitle: 'Gran Semifinal',
             awayGoal: 3,
-            homeGoal: 0,
-            time: 83,
+            homeGoal: 2,
+            time: 60,
             awayLogo: 'assets/image/real.png',
             homeLogo: 'assets/image/Barca.png',
-            awayTitle: 'Los Capos',
+            awayTitle: 'Motupe',
             homeTitle: 'Chumbeles',
             color: const Color(0xFF1D1D1D),
             textColor: Colors.white,
-            numColor: Colors.amber,
+            numColorL: Colors.lightGreenAccent,
+            numColorR: Colors.amber,
             backgroundImage: DecorationImage(
               image: AssetImage('assets/image/pl.png'),
               fit: BoxFit.contain,
               alignment: Alignment.bottomLeft,
               opacity: 0.3,
-            ),
+            ), 
           ),
           LiveMatchBox(
-            awayGoal: 3,
-            homeGoal: 0,
-            time: 83,
+            copaTitle: 'Copa Cheleros', 
+            ligaTitle: 'Gran Final',
+            awayGoal: 1,
+            homeGoal: 1,
+            time: 40,
             awayLogo: 'assets/image/real.png',
             homeLogo: 'assets/image/Barca.png',
-            awayTitle: 'Los Capos',
-            homeTitle: 'Chumbeles',
+            awayTitle: 'Chumbeles',
+            homeTitle: 'Motupe',
             color: const Color(0x75FFFFFF),
             textColor: Colors.black,
-            numColor: Colors.pink,
+            numColorL: Colors.deepPurple,
+            numColorR: Colors.pink,
             backgroundImage: DecorationImage(
               image: AssetImage('assets/image/pl.png'),
               fit: BoxFit.contain,

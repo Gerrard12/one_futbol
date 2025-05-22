@@ -65,16 +65,16 @@ class _SettingViewState extends State<SettingView> {
               //   value: 'English',
               //   onTap: () {},
               // ),
-              const SizedBox(height: 20),
-              SettingItem(
-                title: '  Notifications',
-                icon: Ionicons.notifications,
-                bgColor: Colors.blue.shade100,
-                iconColor: Colors.blue,
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> const ServicioWidget()));
-                },
-              ),
+              // const SizedBox(height: 20),
+              // SettingItem(
+              //   title: '  Notifications',
+              //   icon: Ionicons.notifications,
+              //   bgColor: Colors.blue.shade100,
+              //   iconColor: Colors.blue,
+              //   onTap: () {
+              //     Navigator.push(context, MaterialPageRoute(builder: (context)=> const ServicioWidget()));
+              //   },
+              // ),
               const SizedBox(height: 20),
               SettingItem(
                 title: '  Help',

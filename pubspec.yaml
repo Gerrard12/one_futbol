@@ -60,6 +60,12 @@ dependencies:
   flutter_localized_locales: ^2.0.5
   flutter_settings_screens: ^0.3.4
   ionicons: ^0.2.2
+  intl: ^0.20.2
+  flag: ^7.0.0
+  country_flags: ^3.2.0
+  flutter_local_notifications: ^19.2.1
+  timezone: ^0.10.1
+  flutter_datetime_picker_plus: ^2.2.0
 
 dev_dependencies:
   flutter_test:

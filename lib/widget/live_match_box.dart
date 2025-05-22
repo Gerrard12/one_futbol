@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class LiveMatchBox extends StatelessWidget {
-  final String homeLogo, homeTitle, awayLogo, awayTitle;
+  final String homeLogo, homeTitle, awayLogo, awayTitle, copaTitle, ligaTitle;
   final int time, awayGoal, homeGoal;
-  final Color color, textColor, numColor;
+  final Color color, textColor, numColorL, numColorR;
   final DecorationImage backgroundImage;
   const LiveMatchBox({
     super.key,
@@ -17,7 +17,10 @@ class LiveMatchBox extends StatelessWidget {
     required this.color,
     required this.textColor,
     required this.backgroundImage,
-    required this.numColor,
+    required this.numColorL,
+    required this.numColorR,
+    required this.copaTitle,
+    required this.ligaTitle,
   });
 
   @override
@@ -34,7 +37,7 @@ class LiveMatchBox extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            'Copa Cerrito Verde',
+            copaTitle,
             style: TextStyle(
               color: textColor,
               fontWeight: FontWeight.bold,
@@ -43,7 +46,7 @@ class LiveMatchBox extends StatelessWidget {
           ),
           const SizedBox(height: 5),
           Text(
-            'GRAN FINAL',
+            ligaTitle,
             style: TextStyle(
               color: textColor,
               fontSize: 12,
@@ -92,7 +95,14 @@ class LiveMatchBox extends StatelessWidget {
                     TextSpan(
                       children: [
                         TextSpan(
-                          text: "$homeGoal : ",
+                          text: "$homeGoal",
+                          style: TextStyle(
+                            fontSize: 36,
+                            color: numColorL,
+                          ),
+                        ),
+                        TextSpan(
+                          text: ":",
                           style: TextStyle(
                             fontSize: 36,
                             color: textColor,
@@ -102,7 +112,7 @@ class LiveMatchBox extends StatelessWidget {
                           text: "$awayGoal",
                           style: TextStyle(
                             fontSize: 36,
-                            color: numColor,
+                            color: numColorR,
                           ),
                         ),
                       ],

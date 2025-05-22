@@ -1,15 +1,6 @@
 import 'dart:collection';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:one_futbol/bloc/match_bloc/match_bloc.dart';
-import 'package:one_futbol/bloc/match_bloc/match_event.dart';
-import 'package:one_futbol/bloc/match_bloc/match_state.dart';
-import 'package:one_futbol/bloc/team_bloc/team_bloc.dart';
-import 'package:one_futbol/bloc/team_bloc/team_event.dart';
-import 'package:one_futbol/data/data_provider/match_dao.dart';
-import 'package:one_futbol/data/data_provider/team_dao.dart';
 import 'package:one_futbol/domain/entities/match_model.dart';
 import 'package:one_futbol/domain/entities/player_model.dart';
 import 'package:one_futbol/domain/entities/team_model.dart';
@@ -214,29 +205,7 @@ class _MatchDetailsState extends State<MatchDetails> {
           title: Text('Detalles del partido'),
         ),
         body: SizedBox(
-          height: heightScreen - 170,
           child: Column(
-            children: [
-              Expanded(child: details(team1)),
-              Divider(),
-              Expanded(child: details(team2)),
-              FloatingActionButton.extended(
-                heroTag: sqrt1_2,
-                onPressed: () {
-                  Navigator.pop(context);
-                  if (team2.teamGoals > team1.teamGoals) {
-                    team2.points += 3;
-                  }
-                  if (team2.teamGoals == team1.teamGoals) {
-                    team2.points += 1;
-                    team1.points += 1;
-                  } else {
-                    team1.points += 3;
-                  }
-                },
-                label: Text('Finalizar'),
-              )
-            ],
           ),
         ));
   }

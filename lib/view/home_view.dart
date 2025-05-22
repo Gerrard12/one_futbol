@@ -28,7 +28,7 @@ class HomeView extends StatelessWidget {
                 LogoSection(Logo: 'assets/image/logo.png',),
                 SizedBox(height: 40),
                 Textotabla(),
-                Marcador(),
+                Marcador(matches: [],),
                 TextoLista(),
                 TablaGlobal(),
                 SizedBox(height: 60),

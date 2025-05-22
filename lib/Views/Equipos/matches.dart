@@ -9,7 +9,6 @@ import 'package:one_futbol/Views/Equipos/match_details.dart';
 import 'package:one_futbol/bloc/team_bloc/team_bloc.dart';
 import 'package:one_futbol/bloc/team_bloc/team_event.dart';
 import 'package:one_futbol/domain/entities/match_model.dart';
-import 'package:one_futbol/domain/entities/team_model.dart';
 import 'package:one_futbol/widget/Score_board_widget.dart';
 
 class Matches extends StatefulWidget {
