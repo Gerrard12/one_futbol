@@ -9,14 +9,12 @@ import 'package:one_futbol/domain/entities/player_model.dart';
 class CardInfo extends StatefulWidget {
   const CardInfo({
     super.key,
-    required this.players,
-    required this.index,
+    required this.player,
     required this.selectedPlayer,
   });
 
-  final int index;
   final HashSet<Player> selectedPlayer;
-  final List<Player> players;
+  final Player player;
 
   @override
   State<CardInfo> createState() => _CardInfoState();
@@ -24,13 +22,13 @@ class CardInfo extends StatefulWidget {
 
 class _CardInfoState extends State<CardInfo> {
   void eliminarJugador() {
-    Player player = widget.players[widget.index];
+    Player player = widget.player;
     widget.selectedPlayer.remove(player);
     context.read<PlayerBloc>().add(DeletePlayer(player));
   }
 
   void editarJugador() {
-    Player player = widget.players[widget.index];
+    Player player = widget.player;
     TextEditingController nameController =
         TextEditingController(text: player.name);
     TextEditingController positionController =
@@ -91,27 +89,26 @@ class _CardInfoState extends State<CardInfo> {
 
   @override
   Widget build(BuildContext context) {
+    Player player = widget.player;
+
     return Card(
       elevation: 10,
       shadowColor: Colors.black,
       child: ListTile(
         title: Text(
-          widget.players[widget.index].name,
+          player.name,
           style: TextStyle(color: Colors.black, fontSize: 20),
         ),
-        subtitle: Text(widget.players[widget.index].position,
-            style: TextStyle(color: Colors.black)),
+        subtitle: Text(player.position, style: TextStyle(color: Colors.black)),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Text(
-              widget.players[widget.index].performance.toString(),
+              player.performance.toString(),
               style: TextStyle(
-                  color: widget.players[widget.index].performance >= 5
-                      ? Colors.green
-                      : Colors.orange,
+                  color: player.performance >= 5 ? Colors.green : Colors.orange,
                   fontSize: 20),
             ),
             PopupMenuButton(
@@ -126,8 +123,7 @@ class _CardInfoState extends State<CardInfo> {
               onSelected: (item) => selectedItem(context, item),
             ),
             Visibility(
-              visible:
-                  widget.selectedPlayer.contains(widget.players[widget.index]),
+              visible: widget.selectedPlayer.contains(player),
               child: Icon(
                 Icons.check_circle_outline,
                 size: 30,

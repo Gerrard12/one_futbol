@@ -7,28 +7,32 @@ class MatchModel {
     this.id,
     this.date,
     required this.teams,
+    required this.status,
   });
 
   late int? id;
-  late List<Team> teams;
   late DateTime? date;
+  late List<Team> teams;
+  late String status;
 
-  MatchModel copyWith({int? id, DateTime? date, List<Team>? teams}) {
+  MatchModel copyWith(
+      {int? id, DateTime? date, List<Team>? teams, String? status}) {
     return MatchModel(
       id: id ?? this.id,
-      teams: teams ?? this.teams,
       date: date ?? this.date,
+      teams: teams ?? this.teams,
+      status: status ?? this.status,
     );
   }
 
   factory MatchModel.fromJson(Map<String, dynamic> map) {
     return MatchModel(
-      id: map['id'],
-      date: map['date'],
-      teams: (jsonDecode(map['teams']) as List)
-          .map((teamMap) => Team.fromJson(teamMap))
-          .toList(),
-    );
+        id: map['id'],
+        date: map['date'],
+        teams: (jsonDecode(map['teams']) as List)
+            .map((teamMap) => Team.fromJson(teamMap))
+            .toList(),
+        status: map['status']);
   }
 
   Map<String, Object?> toJson() {
@@ -36,6 +40,7 @@ class MatchModel {
       'id': id,
       'date': date,
       'teams': jsonEncode(teams.map((team) => team.toJson()).toList()),
+      'status': status,
     };
   }
 }

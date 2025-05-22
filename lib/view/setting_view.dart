@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:one_futbol/componentes/box.dart';
 import 'package:one_futbol/componentes/button.dart';
 import 'package:one_futbol/theme/theme_provider.dart';
@@ -22,14 +21,14 @@ class SettingView extends StatelessWidget {
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
       body: Center(
-        child: MyBox(
-          color: Theme.of(context).colorScheme.background, 
-          child: MyButton(color: Theme.of(context).colorScheme.secondary,
-           onTap: (){
-            Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
-           }
-           ),
-        )
-      ),
+          child: MyBox(
+        color: Theme.of(context).colorScheme.background,
+        child: MyButton(
+            color: Theme.of(context).colorScheme.secondary,
+            onTap: () {
+              Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
+            }),
+      )),
     );
-  }}
+  }
+}

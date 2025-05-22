@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:one_futbol/bloc/match_bloc/match_bloc.dart';
 import 'package:one_futbol/bloc/match_bloc/match_event.dart';
@@ -26,14 +25,15 @@ Future<void> main() async {
 
   runApp(MultiBlocProvider(
     providers: [
-      BlocProvider(
-          create: (_) =>
-              MatchBloc(matchRepository, generateMatches)..add(LoadMatches())),
+      
       BlocProvider(
           create: (_) => PlayerBloc(playerRepository)..add(LoadPlayer())),
       BlocProvider(
           create: (_) =>
               TeamBloc(teamRepository, generateTeams)..add(LoadTeam())),
+              BlocProvider(
+          create: (_) =>
+              MatchBloc(matchRepository, generateMatches)..add(LoadMatches())),
     ],
     child: const MyApp(),
   ));

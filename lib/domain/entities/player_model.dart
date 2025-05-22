@@ -4,6 +4,7 @@ class Player {
       required this.name,
       required this.position,
       required this.goals,
+      required this.status,
       this.team_id,
       this.id});
 
@@ -13,6 +14,7 @@ class Player {
   late String position;
   late int? team_id;
   late int goals;
+  late String status;
 
   Player copyWith(
       {int? id,
@@ -20,6 +22,7 @@ class Player {
       double? performance,
       String? position,
       int? goals,
+      String? status,
       int? team_id}) {
     return Player(
         id: id ?? this.id,
@@ -27,6 +30,7 @@ class Player {
         name: name ?? this.name,
         position: position ?? this.position,
         goals: goals ?? this.goals,
+        status: status ?? this.status,
         team_id: team_id ?? this.team_id);
   }
 
@@ -37,6 +41,7 @@ class Player {
         name: map['name'],
         position: map['position'],
         goals: map['goals'],
+        status: map['status'],
         team_id: map['team_id']);
   }
 
@@ -47,6 +52,7 @@ class Player {
       'performance': performance,
       'position': position,
       'goals': goals,
+      'status': status,
       'team_id': team_id,
     };
   }
