@@ -1,14 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:iconly/iconly.dart';
 import 'package:one_futbol/Views/Equipos/teams_screen.dart';
 import 'package:one_futbol/Views/Player/player_screen.dart';
 import 'package:one_futbol/bloc/nav_drawer_bloc/nav_drawer_bloc.dart';
 import 'package:one_futbol/bloc/nav_drawer_bloc/nav_drawer_state.dart';
 import 'package:one_futbol/view/home_view.dart';
 import 'package:one_futbol/view/historial_view.dart';
-import 'package:one_futbol/view/setting_view.dart';
 import 'package:one_futbol/widget/drawer_widget.dart';
 
 class MainWrapper extends StatefulWidget {
@@ -47,13 +44,7 @@ class MainWrapperState extends State<MainWrapper> {
           return Scaffold(
             drawer: NavDrawerWidget(),
             appBar: _buildAppBar(state),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                Navigator.push(context,
-                    CupertinoPageRoute(builder: (_) => const SettingView()));
-              },
-              child: const Icon(IconlyBold.setting),
-            ),
+            
             body: AnimatedSwitcher(
               switchInCurve: Curves.easeInExpo,
               switchOutCurve: Curves.easeOutExpo,
@@ -72,9 +63,11 @@ class MainWrapperState extends State<MainWrapper> {
       title: Text(
         _getAppBarTitle(state.selectedItem),
         style: const TextStyle(),
+        
       ),
+      
       centerTitle: false,
-      backgroundColor: const Color(0xFF7077F9),
+      backgroundColor: const Color(0xFFAC0202),
     );
   }
 
@@ -97,7 +90,7 @@ class MainWrapperState extends State<MainWrapper> {
   String _getAppBarTitle(NavItem selectedItem) {
     switch (selectedItem) {
       case NavItem.homeView:
-        return "Home";
+        return "Inicio";
       case NavItem.profileView:
         return "Equipos";
       case NavItem.orderView:

@@ -40,7 +40,7 @@ class JugadorView extends StatelessWidget {
               height: 20,
             ),
             CupertinoButton(
-                color: const Color.fromARGB(255, 112, 119, 249),
+                color: const Color(0xFFAC0202),
                 child: const Text("View All Orders"),
                 onPressed: () {
                   BlocProvider.of<NavDrawerBloc>(context)

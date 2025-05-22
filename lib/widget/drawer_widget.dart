@@ -20,7 +20,7 @@ class NavDrawerWidget extends StatelessWidget {
   final List<_NavigationItem> _listItems = [
     _NavigationItem(
       NavItem.homeView,
-      "Home",
+      "Inicio",
       IconlyBold.home,
     ),
     _NavigationItem(
@@ -44,22 +44,24 @@ class NavDrawerWidget extends StatelessWidget {
   Widget build(BuildContext context) => Drawer(
         child: Column(
           children: [
-            /// Header
             const UserAccountsDrawerHeader(
               accountName: Text(
-                'Una Pichanga?',
+                'Juan Pablo',
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              accountEmail: Text('UnaPichanga?@gmail',
-                  style: TextStyle(color: Colors.white)),
+              accountEmail: Text('JuanPablo@gmail',
+                  style: TextStyle(color: Colors.white),
+                ),
               decoration: BoxDecoration(
-                  image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(
-                          'https://i.pinimg.com/originals/bf/b9/4e/bfb94e54c45afd24384db5ad32d71d15.gif'))),
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: NetworkImage(
+                      'https://i.pinimg.com/originals/bf/b9/4e/bfb94e54c45afd24384db5ad32d71d15.gif'),
+                ),
+              ),
               currentAccountPicture: CircleAvatar(
                 backgroundImage: NetworkImage(
                     'https://images3.memedroid.com/images/UPLOADED277/65815cf051c72.webp'),
@@ -103,14 +105,14 @@ class NavDrawerWidget extends StatelessWidget {
                     ? FontWeight.bold
                     : FontWeight.w300,
                 color: data.item == state.selectedItem
-                    ? const Color(0xFF7077F9)
+                    ? const Color(0xFF1F2B72)
                     : Colors.black,
               ),
             ),
             leading: Icon(
               data.icon,
               color: data.item == state.selectedItem
-                  ? const Color(0xFF7077F9)
+                  ? const Color(0xFFAC0202)
                   : Colors.black,
             ),
             onTap: () => _handleItemClick(context, data.item),

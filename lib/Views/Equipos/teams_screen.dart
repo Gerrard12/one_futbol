@@ -6,8 +6,6 @@ import 'package:one_futbol/Views/Equipos/matches.dart';
 import 'package:one_futbol/bloc/match_bloc/match_bloc.dart';
 import 'package:one_futbol/bloc/match_bloc/match_event.dart';
 import 'package:one_futbol/bloc/match_bloc/match_state.dart';
-import 'package:one_futbol/bloc/player_bloc/player_bloc.dart';
-import 'package:one_futbol/bloc/player_bloc/player_event.dart';
 import 'package:one_futbol/bloc/team_bloc/team_bloc.dart';
 import 'package:one_futbol/bloc/team_bloc/team_state.dart';
 import 'package:one_futbol/domain/domain.dart';

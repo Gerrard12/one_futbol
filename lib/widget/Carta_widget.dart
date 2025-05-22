@@ -27,41 +27,42 @@ class DatosCarta extends StatelessWidget {
                   alignment: Alignment.center,
                 ),
                 Container(
-                  width: 100,
+                  width: screenWidth * 0.28,
                   height: screenHeight * 0.25,
-                  padding: EdgeInsets.only(left: 20, top: 35),
+                  padding: EdgeInsets.only(top: 35),
                   child: AutoSizeText('58',
                       style: GoogleFonts.alumniSans(
                           fontWeight: FontWeight.w500, fontSize: 50),
                       textAlign: TextAlign.center),
                 ),
                 Container(
-                  width: 100,
+                  width: screenWidth * 0.28,
                   height: screenHeight * 0.25,
-                  padding: EdgeInsets.only(left: 25, top: 70),
+                  padding: EdgeInsets.only(top: 75),
                   child: AutoSizeText('CAM',
                       style: GoogleFonts.alumniSans(
                           fontWeight: FontWeight.w500, fontSize: 50),
                       textAlign: TextAlign.center),
                 ),
                 Container(
-                    padding: EdgeInsets.only(left: 35, top: 35),
+                    padding: EdgeInsets.only(left: 35, top: 5),
                     child: Image.asset('assets/image/peru.png',
                         width: screenWidth * 0.12, height: screenHeight * 0.29,)),
                 Container(
-                    padding: EdgeInsets.only(left: 35, top: 50),
+                    padding: EdgeInsets.only(left: 35, top: 15),
                     child: Image.asset('assets/image/escudo.png',
                         width: screenWidth * 0.12, height: screenHeight * 0.38,)),
-                Container(
-                  height: screenHeight * 0.28,
-                    padding: EdgeInsets.only(left: 100, top: 25),
+                SizedBox(
+                  width: screenWidth * 1,
+                  height: screenHeight * 0.25,
                     child: Image.asset(
                       'assets/image/douglas.png',
-                      scale: 0.84,
+                      scale: 0.9,
                     )),
                 Center(
                   child: Container(
-                    padding: EdgeInsets.only(right: 80, top: 60),
+                    height: screenHeight * 0.20,
+                    padding: EdgeInsets.only(right: 80, top: 105),
                     constraints: BoxConstraints(
                       maxWidth: 500,
                     ),
@@ -81,24 +82,27 @@ class DatosCarta extends StatelessWidget {
 
                 //PRIMERA COLUMNA
                 Container(
-                  width: screenWidth * 1,
-                  padding: EdgeInsets.only(left: 5, top: 260),
+                  height: screenHeight * 0.80,
+                  width: screenWidth * 0.19,
+                  padding: EdgeInsets.only(top: 260),
                   child: AutoSizeText('99',
                       style: GoogleFonts.alumniSans(
                           fontWeight: FontWeight.w500, fontSize: 45),
                       textAlign: TextAlign.center),
                 ),
                 Container(
-                  width: 100,
-                  padding: EdgeInsets.only(left: 5, top: 300),
+                  height: screenHeight * 0.80,
+                  width: screenWidth * 0.19,
+                  padding: EdgeInsets.only(top: 300),
                   child: AutoSizeText('99',
                       style: GoogleFonts.alumniSans(
                           fontWeight: FontWeight.w500, fontSize: 45),
                       textAlign: TextAlign.center),
                 ),
                 Container(
-                  width: 100,
-                  padding: EdgeInsets.only(left: 5, top: 340),
+                  height: screenHeight * 0.80,
+                  width: screenWidth * 0.19,
+                  padding: EdgeInsets.only(top: 340),
                   child: AutoSizeText('99',
                       style: GoogleFonts.alumniSans(
                           fontWeight: FontWeight.w500, fontSize: 45),
@@ -107,24 +111,27 @@ class DatosCarta extends StatelessWidget {
 
                 //SEGUNDA COLUMNA
                 Container(
-                  width: 190,
-                  padding: EdgeInsets.only(left: 35, top: 260),
+                  height: screenHeight * 0.80,
+                  width: screenWidth * 0.48,
+                  padding: EdgeInsets.only(top: 260),
                   child: AutoSizeText('RIT',
                       style: GoogleFonts.alumniSans(
                           fontWeight: FontWeight.w500, fontSize: 45),
                       textAlign: TextAlign.center),
                 ),
                 Container(
-                  width: 190,
-                  padding: EdgeInsets.only(left: 35, top: 300),
+                  height: screenHeight * 0.80,
+                  width: screenWidth * 0.48,
+                  padding: EdgeInsets.only(top: 300),
                   child: AutoSizeText('TIR',
                       style: GoogleFonts.alumniSans(
                           fontWeight: FontWeight.w500, fontSize: 45),
                       textAlign: TextAlign.center),
                 ),
                 Container(
-                  width: 190,
-                  padding: EdgeInsets.only(left: 35, top: 340),
+                  height: screenHeight * 0.80,
+                  width: screenWidth * 0.48,
+                  padding: EdgeInsets.only(top: 340),
                   child: AutoSizeText('PAS',
                       style: GoogleFonts.alumniSans(
                           fontWeight: FontWeight.w500, fontSize: 45),
@@ -133,7 +140,8 @@ class DatosCarta extends StatelessWidget {
 
                 //TERCERA COLUMNA
                 Container(
-                  width: 290,
+                  height: screenHeight * 0.80,
+                  width: screenWidth * 0.65,
                   padding: EdgeInsets.only(left: 60, top: 260),
                   child: AutoSizeText('99',
                       style: GoogleFonts.alumniSans(
@@ -141,7 +149,8 @@ class DatosCarta extends StatelessWidget {
                       textAlign: TextAlign.center),
                 ),
                 Container(
-                  width: 290,
+                  height: screenHeight * 0.80,
+                  width: screenWidth * 0.65,
                   padding: EdgeInsets.only(left: 60, top: 300),
                   child: AutoSizeText('99',
                       style: GoogleFonts.alumniSans(
@@ -149,7 +158,8 @@ class DatosCarta extends StatelessWidget {
                       textAlign: TextAlign.center),
                 ),
                 Container(
-                  width: 290,
+                  height: screenHeight * 0.80,
+                  width: screenWidth * 0.65,
                   padding: EdgeInsets.only(left: 60, top: 340),
                   child: AutoSizeText('99',
                       style: GoogleFonts.alumniSans(
@@ -159,24 +169,27 @@ class DatosCarta extends StatelessWidget {
 
                 //CUARTA COLUMNA
                 Container(
-                  width: 400,
-                  padding: EdgeInsets.only(left: 100, top: 260),
+                  height: screenHeight * 0.80,
+                  width: screenWidth * 0.90,
+                  padding: EdgeInsets.only(left: 110, top: 260),
                   child: AutoSizeText('REG',
                       style: GoogleFonts.alumniSans(
                           fontWeight: FontWeight.w500, fontSize: 45),
                       textAlign: TextAlign.center),
                 ),
                 Container(
-                  width: 400,
-                  padding: EdgeInsets.only(left: 100, top: 300),
+                  height: screenHeight * 0.80,
+                  width: screenWidth * 0.90,
+                  padding: EdgeInsets.only(left: 110, top: 300),
                   child: AutoSizeText('DEF',
                       style: GoogleFonts.alumniSans(
                           fontWeight: FontWeight.w500, fontSize: 45),
                       textAlign: TextAlign.center),
                 ),
                 Container(
-                  width: 400,
-                  padding: EdgeInsets.only(left: 100, top: 340),
+                  height: screenHeight * 0.80,
+                  width: screenWidth * 0.90,
+                  padding: EdgeInsets.only(left: 110, top: 340),
                   child: AutoSizeText('FIS',
                       style: GoogleFonts.alumniSans(
                           fontWeight: FontWeight.w500, fontSize: 45),
